@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,jsonify ,request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -20,11 +20,9 @@ class Log(db.Model):
 with app.app_context():
     db.create_all()
     
-    prueba1 = Log(texto='mensaje prueba 1')
-    prueba2 = Log(texto='mensaje prueba 2')
-    db.session.add(prueba1)
-    db.session.add(prueba2)
-    db.session.commit()
+    #prueba1 = Log(texto='mensaje prueba 1')
+#   db.session.add(prueba1)
+    #db.session.commit()
     
 #Funcion para ordenar los registros por fecha y hora
 
@@ -42,10 +40,40 @@ def index():
 mensajes_log =[]
 # Función para agregar mensajes y guardar en la base de datos
 def agregar_mensajes_log(texto):
+    mensajes_log.append(texto)
+    
     nuevo_registro = Log(texto=texto)  # Crear el nuevo registro
     db.session.add(nuevo_registro)    # Agregarlo a la sesión
     db.session.commit()               # Confirmar cambios
 
+
+#token de veririfacion para la configuracion
+TOKEN_VERIFICACION = "52660808"
+
+@app.route('/webhook',methods=['GET','POST'])
+def webhook():
+    if request.method == 'GET':
+        challenge = verificar_token(request)
+        return challenge
+    elif request.method == 'POST':
+        response = recibir_mensajes(request)
+        return response
+    
+#Verifica el token
+def verificar_token(req):
+    token = req.args.get('hub.verify_token')
+    challenge = req.args.get('hub.challenge')
+    
+    if challenge and token == TOKEN_VERIFICACION:
+        return challenge
+    else:
+        return jsonify({'error':'Token Invalido'}),401
+    
+#Confirma a meta que recibio el mensaje
+def recibir_mensajes(req):
+    req =request.get_json()
+    agregar_mensajes_log(req)
+    return ({'message':'EVENT_RECEIVED'})
 
 # Main
 if __name__ == '__main__':
