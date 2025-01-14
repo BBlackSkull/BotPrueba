@@ -75,9 +75,10 @@ def verificar_token(req):
 #Confirma a meta que recibio el mensaje
 def recibir_mensajes(req):
     data = req.get_json()
-    mensaje_texto = data.get('texto', 'mensaje sin texto')
+    mensaje_texto = data.get('texto', 'Mensaje sin texto')
     agregar_mensajes_log(mensaje_texto)
-    return jsonify ({'message':'EVENT_RECEIVED'})
+    return jsonify({'message':'EVENT_RECEIVED'})
+
 
 # Main
 if __name__ == '__main__':
