@@ -17,9 +17,12 @@ class Log(db.Model):
     texto = db.Column(db.TEXT)
 
 # Crear tabla si no existe
-with app.app_context():
-    db.create_all()
-    
+def init_db():
+    with app.app_context():
+        db.create_all()
+
+init_db()
+
     #prueba1 = Log(texto='mensaje prueba 1')
 #   db.session.add(prueba1)
     #db.session.commit()
@@ -71,9 +74,10 @@ def verificar_token(req):
     
 #Confirma a meta que recibio el mensaje
 def recibir_mensajes(req):
-    req =request.get_json()
-    agregar_mensajes_log(req)
-    return ({'message':'EVENT_RECEIVED'})
+    data = req.get_json()
+    mensaje_texto = data.get('texto', 'mensaje sin texto')
+    agregar_mensajes_log(mensaje_texto)
+    return jsonify ({'message':'EVENT_RECEIVED'})
 
 # Main
 if __name__ == '__main__':
