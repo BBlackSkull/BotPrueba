@@ -78,25 +78,34 @@ processed_messages = set()
 
 def recibir_mensajes(req):
     data = req.get_json()
-    print(data)  # Para verificar la estructura del JSON recibido
+    print("JSON recibido:", data)  # Inspecciona el JSON
 
     try:
-        mensaje_id = data['entry'][0]['changes'][0]['value']['messages'][0]['id']
-        if mensaje_id in processed_messages:
-            return jsonify({'message': 'DUPLICATE_MESSAGE'})
-        processed_messages.add(mensaje_id)
+        entry = data.get('entry', [])[0]
+        changes = entry.get('changes', [])[0]
+        messages = changes.get('value', {}).get('messages', [])
 
-        mensaje_texto = data['entry'][0]['changes'][0]['value']['messages'][0]['text']['body']
-        print(f"Mensaje recibido: {mensaje_texto}")
-    except KeyError as e:
-        mensaje_texto = 'Mensaje sin texto'
-        print(f"Error al extraer el mensaje: {e}")
+        if messages:
+            # Si hay mensajes, procesamos el primero
+            mensaje = messages[0]
+            mensaje_id = mensaje.get('id')
+            if mensaje_id in processed_messages:
+                return jsonify({'message': 'DUPLICATE_MESSAGE'})
+            processed_messages.add(mensaje_id)
 
+            mensaje_texto = mensaje.get('text', {}).get('body', 'Mensaje sin texto')
+            print(f"Mensaje recibido: {mensaje_texto}")
+        else:
+            mensaje_texto = "Sin mensajes en este cambio"
+            print("Cambio recibido sin mensajes")
+
+    except Exception as e:
+        mensaje_texto = f"Error procesando mensaje: {str(e)}"
+        print(mensaje_texto)
+
+    # Guardamos el mensaje en la base de datos
     agregar_mensajes_log(mensaje_texto)
     return jsonify({'message': 'EVENT_RECEIVED'})
-
-
-
 
 
 # Main
