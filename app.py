@@ -79,13 +79,15 @@ def recibir_mensajes(req):
     print(data)  # Para verificar la estructura del JSON recibido
 
     try:
-        # Extraer el texto del mensaje del JSON recibido
-        mensaje_texto = data['entry'][0]['messaging'][0]['message']['text']
+        # Ajuste según el formato del JSON recibido de Meta
+        mensaje_texto = data['entry'][0]['changes'][0]['value']['messages'][0]['text']['body']
     except KeyError:
         mensaje_texto = 'Mensaje sin texto'
 
     agregar_mensajes_log(mensaje_texto)
     return jsonify({'message': 'EVENT_RECEIVED'})
+
+
 
 
 # Main
