@@ -23,14 +23,16 @@ def init_db():
 
 init_db()
 
-    #prueba1 = Log(texto='mensaje prueba 1')
-#   db.session.add(prueba1)
-    #db.session.commit()
+
     
 #Funcion para ordenar los registros por fecha y hora
 
 def ordenar_por_fecha_y_hora(registros):
-    return sorted(registros, key=lambda x:x.fecha_y_hora,reverse=True)
+    registros_ordenados = sorted(registros, key=lambda x: x.fecha_y_hora, reverse=True)
+    for registro in registros_ordenados:
+        print(registro.texto)  # Para verificar el orden de los registros
+    return registros_ordenados
+
 
 @app.route('/')
 def index():
@@ -72,12 +74,18 @@ def verificar_token(req):
     else:
         return jsonify({'error':'Token Invalido'}),401
     
-#Confirma a meta que recibio el mensaje
 def recibir_mensajes(req):
     data = req.get_json()
-    mensaje_texto = data.get('texto', 'Mensaje sin texto')
+    print(data)  # Para verificar la estructura del JSON recibido
+
+    try:
+        # Extraer el texto del mensaje del JSON recibido
+        mensaje_texto = data['entry'][0]['messaging'][0]['message']['text']
+    except KeyError:
+        mensaje_texto = 'Mensaje sin texto'
+
     agregar_mensajes_log(mensaje_texto)
-    return jsonify({'message':'EVENT_RECEIVED'})
+    return jsonify({'message': 'EVENT_RECEIVED'})
 
 
 # Main
