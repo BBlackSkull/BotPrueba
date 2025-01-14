@@ -74,18 +74,27 @@ def verificar_token(req):
     else:
         return jsonify({'error':'Token Invalido'}),401
     
+processed_messages = set()
+
 def recibir_mensajes(req):
     data = req.get_json()
     print(data)  # Para verificar la estructura del JSON recibido
 
     try:
-        # Ajuste según el formato del JSON recibido de Meta
+        mensaje_id = data['entry'][0]['changes'][0]['value']['messages'][0]['id']
+        if mensaje_id in processed_messages:
+            return jsonify({'message': 'DUPLICATE_MESSAGE'})
+        processed_messages.add(mensaje_id)
+
         mensaje_texto = data['entry'][0]['changes'][0]['value']['messages'][0]['text']['body']
-    except KeyError:
+        print(f"Mensaje recibido: {mensaje_texto}")
+    except KeyError as e:
         mensaje_texto = 'Mensaje sin texto'
+        print(f"Error al extraer el mensaje: {e}")
 
     agregar_mensajes_log(mensaje_texto)
     return jsonify({'message': 'EVENT_RECEIVED'})
+
 
 
 
