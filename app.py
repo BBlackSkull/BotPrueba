@@ -2,6 +2,7 @@ from flask import Flask, render_template,jsonify ,request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
+import http.client
 
 
 app = Flask(__name__)
@@ -90,8 +91,7 @@ def recibir_mensajes(req):
                     text = messages["text"]["body"]
                     numero = messages ["from"]
                     
-                    agregar_mensajes_log(json.dumps(text))
-                    agregar_mensajes_log(json.dumps(numero))
+                    enviar_mensaje_whatsapp(text,numero)
                     
         
         return jsonify({'message': 'EVENT_RECEIVED'})
@@ -117,7 +117,62 @@ def webhook():
         response = recibir_mensajes(request)
         return response
     
+
+def enviar_mensaje_whatsapp(texto,number):
+   
+   texto =texto.lower()
+   
+   if "hola" in texto:
+       data = {
+            "messaging_product": "whatsapp",    
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Hola, como estas?. Bienvenido"
+            }
+        }
+
+   else:
+       data = {
+            "messaging_product": "whatsapp",    
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "🚀 Hola, Gracias por comunicarte.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Restaurante. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar carta en PDF. 📄\n4️⃣. Audio explicando el lugar. 🎧\n5️⃣. Video del local. ⏯️\n6️⃣. Hablar con el local. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+            }
+        }
+       #Convertir el diccionario a json
+       
+       data = json.dumps(data)
+       
+       headers = {
+           "Content-Type": "application/json",
+           "Authorization": "Bearer EAANJNT5ngBABOzVsZByb1uhClQJ2o2ekZAjkUOpbGAZCMZBKYibvSmCsAZCSYyy34nK5rPHhOgyU4I2EyODmkxlZCwBAAidnNttK7hgh1ZBILMiXEyTPmGANLk1t9RPjkTGE5dT1VGvGXXfOW55CQfsvrADzkBZATtPZCY6IReARPZC7Ri5655RApM3pcf6c6QEX41gMJzZA0CMroPfnj4AT6CW64B5"
+       }
+       
+       
+       connection = http.client.HTTPSConnection("graph.facebook.com")
+       
+       try:
+           connection.request("POST","/v21.0/444454825426756/messages", data, headers)
+           response = connection.getresponse()
+           print(response.status, response.reason)
+        
+       except Exception as e:
+            agregar_mensajes_log(json.dumps(e))
+       
+       finally:
+           connection.close()
+       
+       
     
+
+
+       
 # Main
 if __name__ == '__main__':
     # Cambiar a un puerto no privilegiado si no se desea usar sudo
