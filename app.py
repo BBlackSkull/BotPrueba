@@ -1,6 +1,7 @@
 from flask import Flask, render_template,jsonify ,request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import json
 
 
 app = Flask(__name__)
@@ -32,13 +33,24 @@ def ordenar_por_fecha_y_hora(registros):
 mensajes_log =[]
 
 # Función para agregar mensajes y guardar en la base de datos
-def agregar_mensajes_log(texto):
-    mensajes_log.append(texto)
+#def agregar_mensajes_log(texto):
+#    mensajes_log.append(texto)
     
-    nuevo_registro = Log(texto=texto)  # Crear el nuevo registro
-    db.session.add(nuevo_registro)    # Agregarlo a la sesión
-    db.session.commit()               # Confirmar cambios
+#    nuevo_registro = Log(texto=texto)  # Crear el nuevo registro
+#    db.session.add(nuevo_registro)    # Agregarlo a la sesión
+#    db.session.commit()               # Confirmar cambios
 
+def agregar_mensajes_log(texto):
+    if isinstance(texto, dict):  # Verifica si el texto es un diccionario
+        texto = json.dumps(texto, ensure_ascii=False, indent=2)  # Convierte a JSON
+
+    mensajes_log.append(texto)  # Almacena en memoria
+    nuevo_registro = Log(texto=texto)  # Crea el registro en la base de datos
+    try:
+        db.session.add(nuevo_registro)
+        db.session.commit()  # Inserta el registro en la base de datos
+    except Exception as e:
+        print(f"Error al guardar en la base de datos: {e}")
 
 #token de veririfacion para la configuracion
 TOKEN_VERIFICACION = "52660808"
