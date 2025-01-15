@@ -133,7 +133,41 @@ def enviar_mensaje_whatsapp(texto,number):
                 "body": "Hola, como estas?. Bienvenido"
             }
         }
-
+   elif "1" in texto:
+       data ={
+           "messaging_product": "whatsapp",    
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Hola, como estas?. Bienvenido este es el restaurante... "
+            }
+       }
+   elif "2" in texto:
+       data={
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": "59897549779",
+            "type": "location",
+            "location": {
+                "latitude": "-34.89469",
+                "longitude": "-56.1539",
+                "name": "Estadio Centenario",
+                "address": "Montevideo, Uruguay"
+            }
+        }
+   elif "3" in texto:
+       data ={
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": "59897549779",
+            "type": "document",
+            "document": {
+                "link": "https://www.icat.unam.mx/wp-content/uploads/2022/09/Vigilancia_Tecnologica_en_Ciberseguridad_Boletin.pdf",
+                "caption": "Carta"
+            }
+        }
    else:
        data = {
             "messaging_product": "whatsapp",    
