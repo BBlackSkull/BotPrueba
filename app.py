@@ -71,34 +71,35 @@ def verificar_token(req):
 
 def recibir_mensajes(req):
     try:
-        
-        req = request.get_json()
-        entry = req['entry'][0]
-        changes= entry['changes'][0]
-        value = changes['value']
-        objeto_mensaje = value['messages']
-        
-        if objeto_mensaje:
-            messages = objeto_mensaje[0]
-            
-            if "type" in messages:
-                tipo = messages["type"]
-                
-                if tipo == "interactive":
-                    return 0
-                
-                if "text" in messages:
-                    text = messages["text"]["body"]
-                    numero = messages ["from"]
-                    
-                    enviar_mensaje_whatsapp(text,numero)
-                    
-        
+        data = req.get_json()  # Convertir la solicitud JSON
+        print(json.dumps(data, indent=4))  # Imprimir el JSON recibido para depuración
+
+        # Navegar por el JSON para obtener los datos deseados
+        entry = data.get("entry", [])[0]  # Tomar el primer objeto en "entry"
+        changes = entry.get("changes", [])[0]  # Tomar el primer cambio
+        value = changes.get("value", {})  # Datos dentro de "value"
+        messages = value.get("messages", [])  # Lista de mensajes
+
+        if messages:  # Si hay mensajes presentes
+            message = messages[0]  # Tomar el primer mensaje
+            numero_remitente = message.get("from")  # Número del remitente
+            texto_mensaje = message.get("text", {}).get("body", "")  # Texto del mensaje
+
+            print(f"Número del remitente: {numero_remitente}")
+            print(f"Texto del mensaje: {texto_mensaje}")
+
+            # Enviar una respuesta según el contenido del mensaje
+            enviar_mensaje_whatsapp(texto_mensaje, numero_remitente)
+
+            # Guardar en la base de datos para registro
+            agregar_mensajes_log(f"Mensaje recibido de {numero_remitente}: {texto_mensaje}")
+
         return jsonify({'message': 'EVENT_RECEIVED'})
-    
-    except Exception as e:
+
+    except KeyError as e:
+        print(f"Clave faltante en el JSON: {e}")
         return jsonify({'message': 'EVENT_RECEIVED'})
-    
+
 
 @app.route('/')
 def index():
