@@ -74,7 +74,7 @@ def verificar_token(req):
     else:
         return jsonify({'error':'Token Invalido'}),401
     
-processed_messages = set()
+
 
 def recibir_mensajes(req):
     req = request.get_json()
