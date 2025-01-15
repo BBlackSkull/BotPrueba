@@ -148,7 +148,7 @@ def enviar_mensaje_whatsapp(texto,number):
        data={
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
-            "to": "59897549779",
+            "to": number,
             "type": "location",
             "location": {
                 "latitude": "-34.89469",
@@ -161,7 +161,7 @@ def enviar_mensaje_whatsapp(texto,number):
        data ={
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
-            "to": "59897549779",
+            "to":number,
             "type": "document",
             "document": {
                 "link": "https://www.icat.unam.mx/wp-content/uploads/2022/09/Vigilancia_Tecnologica_en_Ciberseguridad_Boletin.pdf",
