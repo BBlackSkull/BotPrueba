@@ -77,7 +77,7 @@ def recibir_mensajes(req):
         value = changes['value']
         objeto_mensaje = value['messages']
         
-        agregar_mensajes_log(objeto_mensaje)
+        agregar_mensajes_log(json.dumps(objeto_mensaje))
         
         return jsonify({'message': 'EVENT_RECEIVED'})
     
