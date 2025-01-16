@@ -152,8 +152,8 @@ def enviar_mensaje_whatsapp(texto,number):
             "to": number,
             "type": "location",
             "location": {
-                "latitude": "-34.89469",
-                "longitude": "-56.1539",
+                "latitude": -34.89469,
+                "longitude": -56.1539,
                 "name": "Estadio Centenario",
                 "address": "Montevideo, Uruguay"
             }
