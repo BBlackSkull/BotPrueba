@@ -186,7 +186,7 @@ def enviar_mensaje_whatsapp(texto,number):
        
        headers = {
            "Content-Type": "application/json",
-           "Authorization": "Bearer EAANJNT5ngBABO6scwZBYs1K894PekZAZBteydpSe1am1sjn3H5V1MmtncXbN0h35etiVMpVXuoentkq4WTscoTxx1dKZCZC6MQm0S34d2numipbME2ZCgZACPEaE41qxUlsIjVjgGDTX2x1K7m2RlP116bxl03OwMiWtqYWcOfXzcsBiRQpr5lZBOfmM6rduvdLYIQEijmr3oGlRgpRRwq8lCq8yEAZDZD"
+           "Authorization": "Bearer EAANJNT5ngBABO88qDsNTkYWNAR6fU50S5PBpqDShzwQ3cOveV20lK93yvMCalZBYTIQkZAkV3MkZCdYQwhPVgZCYyG66dT9TI1g79VsshAjt1XFqVtZBcvh2vM827GZC4DutSpp61tS7XwUT7o1j1IZBZABWZCs3I7R8lWCjWKpNZBfkffTPOFyZBGAjhu8tnWv4pfTypqZAEJcA4ZAaj30EeHhgevoMb"
        }
        
        
