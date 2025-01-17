@@ -76,9 +76,9 @@ def recibir_mensajes(req):
         print(json.dumps(data, indent=4))  # Imprimir el JSON recibido para depuración
 
         # Navegar por el JSON para obtener los datos deseados
-        entry = data("entry")[0]  # Tomar el primer objeto en "entry"
-        changes = entry("changes")[0]  # Tomar el primer cambio
-        value = changes("value")  # Datos dentro de "value"
+        entry = data["entry"][0]  # Tomar el primer objeto en "entry"
+        changes = entry["changes"][0]  # Tomar el primer cambio
+        value = changes["value"]  # Datos dentro de "value"
         messages = value("messages")  # Lista de mensajes
 
         if messages:  # Si hay mensajes presentes
