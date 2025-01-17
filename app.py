@@ -121,12 +121,11 @@ def webhook():
     
 
 def enviar_mensaje_whatsapp(texto,number):
-   
-   texto = texto.lower()
-   print(texto)
-   
-   if "hola" in texto:
-       data = {
+    data = {}
+    texto = texto.lower()
+
+    if "hola" in texto:
+        data = {
             "messaging_product": "whatsapp",    
             "recipient_type": "individual",
             "to": number,
@@ -136,9 +135,9 @@ def enviar_mensaje_whatsapp(texto,number):
                 "body": "Hola, como estas?. Bienvenido"
             }
         }
-   elif "1" in texto:
-       data ={
-           "messaging_product": "whatsapp",    
+    elif "1" in texto:
+        data ={
+            "messaging_product": "whatsapp",    
             "recipient_type": "individual",
             "to": number,
             "type": "text",
@@ -146,9 +145,9 @@ def enviar_mensaje_whatsapp(texto,number):
                 "preview_url": False,
                 "body": "Hola, como estas?. Bienvenido este es el restaurante... "
             }
-       }
-   elif "2" in texto:
-       data={
+        }
+    elif "2" in texto:
+        data={
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
             "to": number,
@@ -160,8 +159,8 @@ def enviar_mensaje_whatsapp(texto,number):
                 "address": "Montevideo, Uruguay"
             }
         }
-   elif "3" in texto:
-       data ={
+    elif "3" in texto:
+        data ={
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
             "to":number,
@@ -171,8 +170,8 @@ def enviar_mensaje_whatsapp(texto,number):
                 "caption": "Carta"
             }
         }
-   else:
-       data = {
+    else:
+        data = {
             "messaging_product": "whatsapp",    
             "recipient_type": "individual",
             "to": number,
@@ -183,34 +182,30 @@ def enviar_mensaje_whatsapp(texto,number):
                 #"body": "🚀 Hola, Gracias por comunicarte.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Restaurante. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar carta en PDF. 📄\n4️⃣. Audio explicando el lugar. 🎧\n5️⃣. Video del local. ⏯️\n6️⃣. Hablar con el local. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
             }
         }
-       #Convertir el diccionario a json
-       
-       data = json.dumps(data)
-       
-       headers = {
-           "Content-Type": "application/json",
-           "Authorization": "Bearer EAANJNT5ngBABOxjgJ6ReknX1C3mmrZCZBT4vECZBDFOd0TbQMVFBfj4eJ5vlE8XrwqkooGo90YIDIz1gpaTZCKWioKnjXrZAwFsrpwFLY1aCvRrpZBG9xPTzXEQZCMl8BD3esSSH0MBlf2VhbPgGxZCJod8n7f4cOmVYGxPbnwZAmjWZBCZCyYZAkA0L8dZBmc6IZAy4ZCkgiCYBpBUZCtX4SkT0pUMTEHfoggZDZD"
-       }
-       
-       
-       connection = http.client.HTTPSConnection("graph.facebook.com")
-       
-       try:
-           connection.request("POST","/v21.0/444454825426756/messages", data, headers)
-           response = connection.getresponse()
-           print(response.status, response.reason)
-        
-       except Exception as e:
-            agregar_mensajes_log(json.dumps(e))
-       
-       finally:
-           connection.close()
-       
-       
+#Convertir el diccionario a json 
     
+    data = json.dumps(data)
+    
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer EAANJNT5ngBABOxjgJ6ReknX1C3mmrZCZBT4vECZBDFOd0TbQMVFBfj4eJ5vlE8XrwqkooGo90YIDIz1gpaTZCKWioKnjXrZAwFsrpwFLY1aCvRrpZBG9xPTzXEQZCMl8BD3esSSH0MBlf2VhbPgGxZCJod8n7f4cOmVYGxPbnwZAmjWZBCZCyYZAkA0L8dZBmc6IZAy4ZCkgiCYBpBUZCtX4SkT0pUMTEHfoggZDZD"
+    }
+    
+    
+    connection = http.client.HTTPSConnection("graph.facebook.com")
+    
+    try:
+        connection.request("POST","/v21.0/444454825426756/messages", data, headers)
+        response = connection.getresponse()
+        print(response.status, response.reason)
+    
+    except Exception as e:
+        agregar_mensajes_log(json.dumps(e))
+    
+    finally:
+        connection.close()
 
 
-       
 # Main
 if __name__ == '__main__':
     # Cambiar a un puerto no privilegiado si no se desea usar sudo
