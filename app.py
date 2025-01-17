@@ -2,6 +2,7 @@ from flask import Flask, render_template,jsonify ,request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
+import requests
 import http.client
 
 
@@ -71,36 +72,48 @@ def verificar_token(req):
 
 def recibir_mensajes(req):
     try:
-        data = req.get_json()  # Convertir la solicitud JSON
-        print(json.dumps(data, indent=4))  # Imprimir el JSON recibido para depuración
+        req = request.get_json()
+        entry =req['entry'][0]
+        changes = entry['changes'][0]
+        value = changes['value']
+        objeto_mensaje = value['messages']
 
-        # Navegar por el JSON para obtener los datos deseados
-        entry = data.get("entry", [])[0]  # Tomar el primer objeto en "entry"
-        changes = entry.get("changes", [])[0]  # Tomar el primer cambio
-        value = changes.get("value", {})  # Datos dentro de "value"
-        messages = value.get("messages", [])  # Lista de mensajes
+        if objeto_mensaje:
+            messages = objeto_mensaje[0]
 
-        if messages:  # Si hay mensajes presentes
-            message = messages[0]  # Tomar el primer mensaje
-            numero_remitente = message.get("from")  # Número del remitente
-            texto_mensaje = message.get("text", {}).get("body", "")  # Texto del mensaje
+            if "type" in messages:
+                tipo = messages["type"]
 
-            print(f"Número del remitente: {numero_remitente}")
-            print(f"Texto del mensaje: {texto_mensaje}")
+                #Guardar Log en la BD
+                agregar_mensajes_log(json.dumps(messages))
 
-            # Enviar una respuesta según el contenido del mensaje
-            enviar_mensaje_whatsapp(texto_mensaje, numero_remitente)
+                if tipo == "interactive":
+                    tipo_interactivo = messages["interactive"]["type"]
 
-            # Guardar en la base de datos para registro
-            agregar_mensajes_log(f"Mensaje recibido de {numero_remitente}: {texto_mensaje}")
+                    if tipo_interactivo == "button_reply":
+                        text = messages["interactive"]["button_reply"]["id"]
+                        numero = messages["from"]
 
-        return jsonify({'message': 'EVENT_RECEIVED'})
+                        enviar_mensaje_whatsapp(text,numero)
+                    
+                    elif tipo_interactivo == "list_reply":
+                        text = messages["interactive"]["list_reply"]["id"]
+                        numero = messages["from"]
 
-    except KeyError as e:
-        print(f"Clave faltante en el JSON: {e}")
-        return jsonify({'message': 'EVENT_RECEIVED'})
+                        enviar_mensaje_whatsapp(text,numero)
 
+                if "text" in messages:
+                    text = messages["text"]["body"]
+                    numero = messages["from"]
 
+                    enviar_mensaje_whatsapp(text,numero)
+
+                    #Guardar Log en la BD
+                    agregar_mensajes_log(json.dumps(messages))
+
+        return jsonify({'message':'EVENT_RECEIVED'})
+    except Exception as e:
+        return jsonify({'message':'EVENT_RECEIVED'})
 @app.route('/')
 def index():
     # Obtener todos los registros de la base de datos
