@@ -132,7 +132,7 @@ def enviar_mensaje_whatsapp(texto,number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body":" Hola, Gracias por comunicarte.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Restaurante. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar carta en PDF. 📄\n4️⃣. Audio explicando el lugar. 🎧\n5️⃣. Video del local. ⏯️\n6️⃣. Hablar con el local. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+                "body":"Hola, Gracias por comunicarte para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del local. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando el sitio. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con el Personal. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
             }
         }
     elif "1" in texto:
@@ -219,7 +219,7 @@ def enviar_mensaje_whatsapp(texto,number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "Hola, Gracias por comunicarte para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Curso. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando curso. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con AnderCode. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+                "body": "Hola, Gracias por comunicarte para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del local. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando el sitio. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con el Personal. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
             }
         }
     
@@ -231,7 +231,7 @@ def enviar_mensaje_whatsapp(texto,number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "🚀 Hola, Gracias por comunicarte.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Restaurante. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar carta en PDF. 📄\n4️⃣. Audio explicando el lugar. 🎧\n5️⃣. Video del local. ⏯️\n6️⃣. Hablar con el local. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+                "body": "Hola, Gracias por comunicarte para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del local. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando el sitio. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con el Personal. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
             }
         }
 #Convertir el diccionario a json 
@@ -240,7 +240,7 @@ def enviar_mensaje_whatsapp(texto,number):
     
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer EAANJNT5ngBABOZCEHsPsBu4o3ouWP2IfdVfVnUQw8ZCZBq9IyqTMxuBs7KjYstGpHDVbVyE5R40KeX27Ivx5sEuSwmHEHzCG9pRhK1C9AHLuUU6FzHxtbdC4Gg0bE8YX2FzmVcIjYtZCZA5d5wJjDrO9rPbP0EUoSyDZAkZCMtZB3ZAqOBF5ObpIQQ1K5UBbVw1J9OVpZBUyZA6EZCjaVqPtMFnOdDob"
+        "Authorization": "Bearer EAANJNT5ngBABOZCEHsPsBu4o3ouWP2IfdVfVnUQw8ZCZBq9IyqTMxuBs7KjYstGpHDVbVyE5R40KeX27Ivx5sEuSwmHEHzCG9pRhK1C9AHLuUU6FzHxtbdC4Gg0bE8YX2FzmVcIjYtZCZEAANJNT5ngBABOxuor75uI8WOrO6FdjBMbZCCd95MoUkuQU2UxP4qMkuSl2P3gTuGkWZC5aFqeJMN4eDZCOiZCRwiZCQOGe1dlsWWsp3hN8w0OqHg7cSPH5u3lThdF031oi9OUZBRFpOw96NMTavyb3jAPC6THcGcHLkZBaXvzQyEBypeoLxFdAVLXUyDHtfKsPNc49UkTv60kHqB4otwErXFp7qA5d5wJjDrO9rPbP0EUoSyDZAkZCMtZB3ZAqOBF5ObpIQQ1K5UBbVw1J9OVpZBUyZA6EZCjaVqPtMFnOdDob"
     }
     
     
