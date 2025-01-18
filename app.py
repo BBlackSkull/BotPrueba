@@ -132,7 +132,7 @@ def enviar_mensaje_whatsapp(texto,number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "Hola, como estas?. Bienvenido"
+                "body":"🚀 Hola, Gracias por comunicarte.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Restaurante. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar carta en PDF. 📄\n4️⃣. Audio explicando el lugar. 🎧\n5️⃣. Video del local. ⏯️\n6️⃣. Hablar con el local. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
             }
         }
     elif "1" in texto:
@@ -170,6 +170,59 @@ def enviar_mensaje_whatsapp(texto,number):
                 "caption": "Carta"
             }
         }
+    elif "4" in texto:
+        data={
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "audio",
+            "audio": {
+                "link": "https://filesamples.com/samples/audio/mp3/sample1.mp3"
+            }
+        }
+    elif "5" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "to": number,
+            "text": {
+                "preview_url": True,
+                "body": "recordido del sitio! https://youtu.be/6ULOE2tGlBM"
+            }
+        }
+    elif "6" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type":"text",
+            "text": {
+                "preview_url":False,
+                "body" : "En breves un representante nuestro se pondra en contacto con usted"
+            }
+        }
+    elif "7" in texto:
+        data={
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "📅 Horario de Atención : Lunes a Viernes. \n🕜 Horario : 9:00 am a 5:00 pm 🤓"
+            }
+        }
+    elif "0" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "🚀 Hola, visita mi web anderson-bastidas.com para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Curso. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando curso. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con AnderCode. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+            }
+        }
+    
     else:
         data = {
             "messaging_product": "whatsapp",    
@@ -187,7 +240,7 @@ def enviar_mensaje_whatsapp(texto,number):
     
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer EAANJNT5ngBABOxjgJ6ReknX1C3mmrZCZBT4vECZBDFOd0TbQMVFBfj4eJ5vlE8XrwqkooGo90YIDIz1gpaTZCKWioKnjXrZAwFsrpwFLY1aCvRrpZBG9xPTzXEQZCMl8BD3esSSH0MBlf2VhbPgGxZCJod8n7f4cOmVYGxPbnwZAmjWZBCZCyYZAkA0L8dZBmc6IZAy4ZCkgiCYBpBUZCtX4SkT0pUMTEHfoggZDZD"
+        "Authorization": "Bearer EAANJNT5ngBABOZCEHsPsBu4o3ouWP2IfdVfVnUQw8ZCZBq9IyqTMxuBs7KjYstGpHDVbVyE5R40KeX27Ivx5sEuSwmHEHzCG9pRhK1C9AHLuUU6FzHxtbdC4Gg0bE8YX2FzmVcIjYtZCZA5d5wJjDrO9rPbP0EUoSyDZAkZCMtZB3ZAqOBF5ObpIQQ1K5UBbVw1J9OVpZBUyZA6EZCjaVqPtMFnOdDob"
     }
     
     
