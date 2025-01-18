@@ -240,7 +240,7 @@ def enviar_mensaje_whatsapp(texto,number):
     
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer EAANJNT5ngBABOZCEHsPsBu4o3ouWP2IfdVfVnUQw8ZCZBq9IyqTMxuBs7KjYstGpHDVbVyE5R40KeX27Ivx5sEuSwmHEHzCG9pRhK1C9AHLuUU6FzHxtbdC4Gg0bE8YX2FzmVcIjYtZCZEAANJNT5ngBABOxuor75uI8WOrO6FdjBMbZCCd95MoUkuQU2UxP4qMkuSl2P3gTuGkWZC5aFqeJMN4eDZCOiZCRwiZCQOGe1dlsWWsp3hN8w0OqHg7cSPH5u3lThdF031oi9OUZBRFpOw96NMTavyb3jAPC6THcGcHLkZBaXvzQyEBypeoLxFdAVLXUyDHtfKsPNc49UkTv60kHqB4otwErXFp7qA5d5wJjDrO9rPbP0EUoSyDZAkZCMtZB3ZAqOBF5ObpIQQ1K5UBbVw1J9OVpZBUyZA6EZCjaVqPtMFnOdDob"
+        "Authorization": "Bearer EAANJNT5ngBABOxuor75uI8WOrO6FdjBMbZCCd95MoUkuQU2UxP4qMkuSl2P3gTuGkWZC5aFqeJMN4eDZCOiZCRwiZCQOGe1dlsWWsp3hN8w0OqHg7cSPH5u3lThdF031oi9OUZBRFpOw96NMTavyb3jAPC6THcGcHLkZBaXvzQyEBypeoLxFdAVLXUyDHtfKsPNc49UkTv60kHqB4otwErXFp7q"
     }
     
     
