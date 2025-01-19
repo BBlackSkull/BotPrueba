@@ -72,48 +72,54 @@ def verificar_token(req):
 
 def recibir_mensajes(req):
     try:
-        req = request.get_json()
-        entry =req['entry'][0]
-        changes = entry['changes'][0]
-        value = changes['value']
-        objeto_mensaje = value['messages']
+        data = req.get_json()  # Convertir la solicitud JSON
+        print(json.dumps(data, indent=4))  # Imprimir el JSON recibido para depuración
 
-        if objeto_mensaje:
-            messages = objeto_mensaje[0]
+        # Navegar por el JSON para obtener los datos deseados
+        entry = data.get("entry",[])[0]  # Tomar el primer objeto en "entry"
+        changes = entry.get("changes",[])[0]  # Tomar el primer cambio
+        value = changes.get("value", {}) # Datos dentro de "value"
+        objeto_messages = value.get("messages", []) # Lista de mensajes
 
-            if "type" in messages:
-                tipo = messages["type"]
+        if objeto_messages:  # Si hay mensajes presentes
+            message = objeto_messages[0]  # Tomar el primer mensaje
+            numero_remitente = message.get("from")  # Número del remitente
+            texto_mensaje = message.get("text", {}).get("body", "")  # Texto del mensaje
+
+            print(f"Número del remitente: {numero_remitente}")
+            print(f"Texto del mensaje: {texto_mensaje}")
+
+            # Enviar una respuesta según el contenido del mensaje
+            enviar_mensaje_whatsapp(texto_mensaje, numero_remitente)
+
+            # Guardar en la base de datos para registro
+            agregar_mensajes_log(f"Mensaje recibido de {numero_remitente}: {texto_mensaje}")
+            if "type" in message:
+                tipo = message["type"]
 
                 #Guardar Log en la BD
-                agregar_mensajes_log(json.dumps(messages))
+                agregar_mensajes_log(json.dumps(message))
 
                 if tipo == "interactive":
-                    tipo_interactivo = messages["interactive"]["type"]
+                    tipo_interactivo = message["interactive"]["type"]
 
                     if tipo_interactivo == "button_reply":
-                        text = messages["interactive"]["button_reply"]["id"]
-                        numero = messages["from"]
+                        text = message["interactive"]["button_reply"]["id"]
+                        numero = message["from"]
 
-                        enviar_mensajes_whatsapp(text,numero)
+                        enviar_mensaje_whatsapp(text,numero)
                     
                     elif tipo_interactivo == "list_reply":
-                        text = messages["interactive"]["list_reply"]["id"]
-                        numero = messages["from"]
+                        text = message["interactive"]["list_reply"]["id"]
+                        numero = message["from"]
 
-                        enviar_mensajes_whatsapp(text,numero)
+                        enviar_mensaje_whatsapp(text,numero)
 
-                if "text" in messages:
-                    text = messages["text"]["body"]
-                    numero = messages["from"]
+        return jsonify({'message': 'EVENT_RECEIVED'})
 
-                    enviar_mensajes_whatsapp(text,numero)
-
-                    #Guardar Log en la BD
-                    agregar_mensajes_log(json.dumps(messages))
-
-        return jsonify({'message':'EVENT_RECEIVED'})
-    except Exception as e:
-        return jsonify({'message':'EVENT_RECEIVED'})
+    except KeyError as e:
+        print(f"Clave faltante en el JSON: {e}")
+        return jsonify({'message': 'EVENT_RECEIVED'})
 
 
 @app.route('/')
@@ -134,7 +140,7 @@ def webhook():
         return response
     
 
-def enviar_mensajes_whatsapp(texto,number):
+def enviar_mensaje_whatsapp(texto,number):
     data = {}
     texto = texto.lower()
 
