@@ -1,0 +1,5 @@
+Api documentacion en postman 
+https://www.postman.com/meta/whatsapp-business-platform/collection/wlk6lh4/whatsapp-cloud-api
+
+api documentacion en meta 
+https://documenter.getpostman.com/view/14215086/TzsZrU6U
