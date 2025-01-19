@@ -73,19 +73,29 @@ def verificar_token(req):
 def recibir_mensajes(req):
     try:
         req = request.get_json()
-        entry =req['entry'][0]
-        changes = entry['changes'][0]
-        value = changes['value']
-        objeto_mensaje = value['messages']
+        
+        # Verificar si el mensaje está dentro de 'entry'
+        if "entry" in req:
+            entry = req['entry'][0]
+            changes = entry['changes'][0]
+            value = changes['value']
+            objeto_mensaje = value.get('messages', [])
+
+        # Verificar si el mensaje es interactivo directo
+        elif "from" in req and "interactive" in req:
+            objeto_mensaje = [req]  # Convertir a lista para compatibilidad
+        else:
+            return jsonify({'message': 'Formato no reconocido'}), 400
 
         if objeto_mensaje:
             messages = objeto_mensaje[0]
 
+            # Determinar tipo de mensaje
             if "type" in messages:
                 tipo = messages["type"]
 
-                #Guardar Log en la BD
-                agregar_mensajes_log(json.dumps(messages))
+                # Guardar log en la base de datos
+                agregar_mensajes_log(json.dumps(messages, ensure_ascii=False))
 
                 if tipo == "interactive":
                     tipo_interactivo = messages["interactive"]["type"]
@@ -93,28 +103,27 @@ def recibir_mensajes(req):
                     if tipo_interactivo == "button_reply":
                         text = messages["interactive"]["button_reply"]["id"]
                         numero = messages["from"]
+                        enviar_mensaje_whatsapp(text, numero)
 
-                        enviar_mensaje_whatsapp(text,numero)
-                    
                     elif tipo_interactivo == "list_reply":
                         text = messages["interactive"]["list_reply"]["id"]
                         numero = messages["from"]
+                        enviar_mensaje_whatsapp(text, numero)
 
-                        enviar_mensaje_whatsapp(text,numero)
-
-                if "text" in messages:
+                elif tipo == "text":
                     text = messages["text"]["body"]
                     numero = messages["from"]
+                    enviar_mensaje_whatsapp(text, numero)
 
-                    enviar_mensaje_whatsapp(text,numero)
+                    # Guardar log en la base de datos
+                    agregar_mensajes_log(json.dumps(messages, ensure_ascii=False))
 
-                    #Guardar Log en la BD
-                    agregar_mensajes_log(json.dumps(messages))
-
+        return jsonify({'message': 'EVENT_RECEIVED'})
+    except KeyError as e:
         return jsonify({'message':'EVENT_RECEIVED'})
-    except Exception as e:
-        return jsonify({'message':'EVENT_RECEIVED'})
-
+    except KeyError as e:
+        print(f"Clave faltante en el JSON: {e}")
+        return jsonify({'message': 'EVENT_RECEIVED'})
 
 @app.route('/')
 def index():
