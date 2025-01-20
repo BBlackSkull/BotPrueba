@@ -79,12 +79,35 @@ def recibir_mensajes(req):
         entry = data.get("entry",[])[0]  # Tomar el primer objeto en "entry"
         changes = entry.get("changes",[])[0]  # Tomar el primer cambio
         value = changes.get("value", {}) # Datos dentro de "value"
-        messages = value.get("messages", []) # Lista de mensajes
+        objeto_messages = value.get("messages", []) # Lista de mensajes
 
-        if messages:  # Si hay mensajes presentes
-            message = messages[0]  # Tomar el primer mensaje
+        if objeto_messages:  # Si hay mensajes presentes
+            message = objeto_messages[0]  # Tomar el primer mensaje
             numero_remitente = message.get("from")  # Número del remitente
             texto_mensaje = message.get("text", {}).get("body", "")  # Texto del mensaje
+            tipo =message.get("type")
+                
+            #Hacer logica para extraer la informacion de interactive
+            #la raiz de interactive aparentemente no es message como en text
+            #revisar logica deambos para ver la diferencia y sus json
+                
+            agregar_mensajes_log(json.dumps(message))
+                
+            if tipo == "text":
+                texto_mensaje = message.get("text", {}).get("body", "")
+            elif tipo == "interactive":
+                tipo_interactivo = message ["interactive"]["type"]
+                    
+                if tipo_interactivo == "button_reply":
+                    texto_mensaje = message["interactive"]["button_reply"]["id"]
+                        
+                    
+                elif tipo_interactivo == "list_reply":
+                    texto_mensaje = message["interactive"]["list_reply"]["id"]
+                        
+                        
+                        
+                
 
             print(f"Número del remitente: {numero_remitente}")
             print(f"Texto del mensaje: {texto_mensaje}")
@@ -285,7 +308,7 @@ def enviar_mensaje_whatsapp(texto,number):
     
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer EAANJNT5ngBABO2smWvMQ3G4gI0gnji7oA6FD7ZA8H7i8EZBcbWU9ps1iZAepvgHOUZBhKHmjZAFZBLd8BtHbf94ryWZCt6By87mrJLZCnUcAPx1kBIotG4BuBzZAZB6eKpQAy4S1WoKQY7cNhY2PLMbp2xSBvknEKhiwNZAlck4OikHn2fD9n63hbK5fwwA4TXpYtANu2ZBOUcYoBZCJko6zbXYQZBc6fQ"
+        "Authorization": "Bearer EAANJNT5ngBABOzIXT2ZCnDxJy5ntaj5uNq8jVfAJjmLplZBP0es5QPTWyXZCFfPZA3loqRhGChYZAuIp4o38sIasRJYUNL8Hxla7lAI7tToQGKTyKiUV6i62vK1MBt32RgK26dJ6lSVUIdlDpDZAwiL4wrmIbOpcmu06DPoZAlHI8HJO2ROl6sHpTGZAnYkaD8UQbE4uiH7wA9TaY2KvLjMZAzgZAhMwZDZD"
     }
     
     
