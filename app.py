@@ -72,52 +72,34 @@ def verificar_token(req):
 
 def recibir_mensajes(req):
     try:
-        req = request.get_json()
-        entry = req['entry'][0]
-        changes = entry['changes'][0]
-        value = changes['value']
-        objeto_mensaje = value['messages']
+        data = req.get_json()  # Convertir la solicitud JSON
+        print(json.dumps(data, indent=4))  # Imprimir el JSON recibido para depuración
 
-        if objeto_mensaje:
-            messages = objeto_mensaje[0]
+        # Navegar por el JSON para obtener los datos deseados
+        entry = data.get("entry",[])[0]  # Tomar el primer objeto en "entry"
+        changes = entry.get("changes",[])[0]  # Tomar el primer cambio
+        value = changes.get("value", {}) # Datos dentro de "value"
+        messages = value.get("messages", []) # Lista de mensajes
 
-            if "type" in messages:
-                tipo = messages["type"]
+        if messages:  # Si hay mensajes presentes
+            message = messages[0]  # Tomar el primer mensaje
+            numero_remitente = message.get("from")  # Número del remitente
+            texto_mensaje = message.get("text", {}).get("body", "")  # Texto del mensaje
 
-                # Guardar Log en la BD
-                agregar_mensajes_log(json.dumps(messages))
+            print(f"Número del remitente: {numero_remitente}")
+            print(f"Texto del mensaje: {texto_mensaje}")
 
-                if tipo == "interactive":
-                    tipo_interactivo = messages["interactive"]["type"]
+            # Enviar una respuesta según el contenido del mensaje
+            enviar_mensaje_whatsapp(texto_mensaje, numero_remitente)
 
-                    if tipo_interactivo == "button_reply":
-                        text = messages["interactive"]["button_reply"]["id"]
-                        numero = messages["from"]
-                        enviar_mensaje_whatsapp(text, numero)
-                    
-                    elif tipo_interactivo == "list_reply":
-                        text = messages["interactive"]["list_reply"]["id"]
-                        numero = messages["from"]
-                        enviar_mensaje_whatsapp(text, numero)
-
-                elif "text" in messages:
-                    text = messages["text"]["body"]
-                    numero = messages["from"]
-                    enviar_mensaje_whatsapp(text, numero)
-
-                    # Guardar Log en la BD
-                    agregar_mensajes_log(json.dumps(messages))
+            # Guardar en la base de datos para registro
+            agregar_mensajes_log(f"Mensaje recibido de {numero_remitente}: {texto_mensaje}")
 
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except KeyError as e:
-        # Puede ser que no se encuentren las claves esperadas en el JSON
-        return jsonify({'error': f'KeyError: {str(e)}', 'message': 'EVENT_RECEIVED'})
-
-    except Exception as e:
-        # Manejo de otras excepciones generales
-        return jsonify({'error': f'Exception: {str(e)}', 'message': 'EVENT_RECEIVED'})
-
+        print(f"Clave faltante en el JSON: {e}")
+        return jsonify({'message': 'EVENT_RECEIVED'})
 
 @app.route('/')
 def index():
