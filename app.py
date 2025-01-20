@@ -302,7 +302,7 @@ def enviar_mensaje_whatsapp(texto,number):
     
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer EAANJNT5ngBABO734VthBC5RMJo4rhA6S8McqyOfJ5DgbljohVZBBO0u1ckCJp7G1mH9V34Yas3cFpjd9rXizgD25dSyNAAfa86WdTZBr5lr9Y2QffvfIIvK5YSwdX0ER3UDGADz6GtDDZBYbYLJ8xNrQLawVxmULgHBZCjAeIg5KHw3yRsJ2qtSGCnXtKfqJDs22BBNHTkFTbi2eS0mwjWneawZDZD"
+        "Authorization": "Bearer EAANJNT5ngBABO2smWvMQ3G4gI0gnji7oA6FD7ZA8H7i8EZBcbWU9ps1iZAepvgHOUZBhKHmjZAFZBLd8BtHbf94ryWZCt6By87mrJLZCnUcAPx1kBIotG4BuBzZAZB6eKpQAy4S1WoKQY7cNhY2PLMbp2xSBvknEKhiwNZAlck4OikHn2fD9n63hbK5fwwA4TXpYtANu2ZBOUcYoBZCJko6zbXYQZBc6fQ"
     }
     
     
