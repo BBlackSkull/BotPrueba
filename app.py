@@ -124,9 +124,16 @@ def index():
     # Obtener todos los registros de la base de datos
     registros = Log.query.all()
     registros_ordenados = ordenar_por_fecha_y_hora(registros)
-    #registros_dict = [{"fecha_y_hora" : log.fecha_y_hora, "texto": log.texto}for log in registros]
+    
+    # Convertir a JSON con indentación para mejorar la legibilidad
+    for registro in registros_ordenados:
+        try:
+            registro.texto = json.dumps(json.loads(registro.texto), indent=2, ensure_ascii=False)
+        except json.JSONDecodeError:
+            # Si no es un JSON válido, lo dejamos tal cual
+            pass
+    
     return render_template('index.html', registros=registros_ordenados)
-
 @app.route('/webhook',methods=['GET','POST'])
 def webhook():
     if request.method == 'GET':

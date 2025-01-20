@@ -23,6 +23,8 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            white-space: pre-wrap;     /* Asegura que el JSON no se desborde */
+            word-wrap: break-word;     /* Mantiene el texto dentro del contenedor */
         }
     </style>
 </head>
@@ -36,7 +38,7 @@
         {% for registro in registros %}
             <tr>
                 <td>{{ registro.fecha_y_hora }}</td>
-                <td><pre>{{ registro.texto }}</pre></td>  <!-- Usamos <pre> para mostrar el JSON correctamente -->
+                <td><pre>{{ registro.texto }}</pre></td>
             </tr>
         {% endfor %}
     </table>
