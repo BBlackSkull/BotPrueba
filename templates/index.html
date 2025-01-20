@@ -17,8 +17,12 @@
         }
         th {
             background-color: #f2f2f2;
-
-
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -26,16 +30,15 @@
     <h2>Registro de mensajes</h2>
     <table>
         <tr>
-           <th>Fecha Y Hora</th> 
-           <th>Mensaje</th>
+            <th>Fecha y Hora</th>
+            <th>Mensaje</th>
         </tr>
         {% for registro in registros %}
             <tr>
                 <td>{{ registro.fecha_y_hora }}</td>
-                <td>{{ registro.texto }}</td>
+                <td><pre>{{ registro.texto }}</pre></td>  <!-- Usamos <pre> para mostrar el JSON correctamente -->
             </tr>
         {% endfor %}
     </table>
-
 </body>
 </html>
