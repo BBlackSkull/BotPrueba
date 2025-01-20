@@ -276,7 +276,7 @@ def enviar_mensaje_whatsapp(texto,number):
                         },{
                             "type": "reply",
                             "reply":{
-                                "id":"btnnp",
+                                "id":"btnno",
                                 "title":"No"
                             }
                         },{
@@ -290,8 +290,29 @@ def enviar_mensaje_whatsapp(texto,number):
                 }
             }
         }
-    
-    else:
+    elif "btnsi" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Hemos recibido tu respuesta afirmativa."
+            }
+        }
+    elif "btnno" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Lamentamos que haya denegado nuestra petición."
+            }
+        }
+    elif "btnlopensare" in texto:
         data = {
             "messaging_product": "whatsapp",    
             "recipient_type": "individual",
@@ -299,7 +320,7 @@ def enviar_mensaje_whatsapp(texto,number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "Hola, Gracias por comunicarte para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del local. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando el sitio. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con el Personal. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+                "body": "Aguardamos por tu respuesta."
             }
         }
 #Convertir el diccionario a json 
