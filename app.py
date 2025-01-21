@@ -323,13 +323,95 @@ def enviar_mensaje_whatsapp(texto,number):
                 "body": "Aguardamos por tu respuesta."
             }
         }
+    elif "lista" in texto:
+        data ={
+            "messaging_product": "whatsapp",
+            "to": number,
+            "type": "interactive",
+            "interactive":{
+                "type" : "list",
+                "body": {
+                    "text": "Selecciona Alguna Opción"
+                },
+                "footer": {
+                    "text": "Selecciona una de las opciones para poder ayudarte"
+                },
+                "action":{
+                    "button":"Ver Opciones",
+                    "sections":[
+                        {
+                            "title":"Compra y Venta",
+                            "rows":[
+                                {
+                                    "id":"btncompra",
+                                    "title" : "Comprar",
+                                    "description": "Compra los mejores articulos de tecnologia"
+                                },
+                                {
+                                    "id":"btnvender",
+                                    "title" : "Vender",
+                                    "description": "Vende lo que ya no estes usando"
+                                }
+                            ]
+                        },{
+                            "title":"Distribución y Entrega",
+                            "rows":[
+                                {
+                                    "id":"btndireccion",
+                                    "title" : "Local",
+                                    "description": "Puedes visitar nuestro local."
+                                },
+                                {
+                                    "id":"btnentrega",
+                                    "title" : "Entrega",
+                                    "description": "La entrega se realiza todos los dias."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    elif "btncompra" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Los mejos articulos top en ofertas."
+            }
+        }
+    elif "btnvender" in texto:
+        data ={
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Excelente eleccion"
+            }
+        }
+    else:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Hola, Gracias por comunicarte para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del local. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando el sitio. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con el Personal. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+            }
+        }
 #Convertir el diccionario a json 
     
     data = json.dumps(data)
     
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer EAANJNT5ngBABOzIXT2ZCnDxJy5ntaj5uNq8jVfAJjmLplZBP0es5QPTWyXZCFfPZA3loqRhGChYZAuIp4o38sIasRJYUNL8Hxla7lAI7tToQGKTyKiUV6i62vK1MBt32RgK26dJ6lSVUIdlDpDZAwiL4wrmIbOpcmu06DPoZAlHI8HJO2ROl6sHpTGZAnYkaD8UQbE4uiH7wA9TaY2KvLjMZAzgZAhMwZDZD"
+        "Authorization": "Bearer EAANJNT5ngBABO4kwu6aLOsewirJnB1stShHvII3m5TLDKr14ktkgM3Kx2e0GFpn5JZAlRtvYbB4RUYLihNwfhSZBJM7Ip5PmxJlK9EZCbr769nSP45cGcXXxCguFBGMtZBHoX7kQtqnyfW911ZAkZCw6hDD8QH3acQn3cinmfSuPzOicLD2nU3QbYlrNzZALqGnksWylyqxCpMVU587Bm1WClfH"
     }
     
     
