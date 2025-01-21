@@ -73,7 +73,7 @@ def verificar_token(req):
 def recibir_mensajes(req):
     try:
         data = req.get_json()  # Convertir la solicitud JSON
-        print(json.dumps(data, indent=4))  # Imprimir el JSON recibido para depuración
+        #print(json.dumps(data, indent=4))  # Imprimir el JSON recibido para depuración
 
         # Navegar por el JSON para obtener los datos deseados
         entry = data.get("entry",[])[0]  # Tomar el primer objeto en "entry"
